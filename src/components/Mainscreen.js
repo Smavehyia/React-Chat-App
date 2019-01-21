@@ -84,11 +84,12 @@ class MainScreen extends React.Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="mycontainer">
                 <div className="message_container">
                     <aside className="friend_list">
                         <OnlineList users={this.state.currentRoom.users} currentUser={this.state.currentUser} />
                     </aside>
+                    
                     <section className="friend_list_container">
                         <Messages messages={this.state.messages}/>
                         <TypingIndicator typingUsers={this.state.typingUsers} />
