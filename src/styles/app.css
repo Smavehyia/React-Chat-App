@@ -1,0 +1,97 @@
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.message_container {
+    display: flex;
+    flex: 1;
+}
+
+.friend_list {
+    width: 250px;
+    flex: none;
+    padding: 20;
+    background: #2c303b;
+    color: white;
+    padding-top: 10px;
+}
+
+.friend_list_container {
+    padding: 20px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.margins {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.messages_list_container {
+    overflow-y: scroll;
+    flex: 1;
+}
+
+.no_bullet_list {
+    list-style: none;
+}
+
+.list {
+    margin-top: 2%; 
+    margin-bottom: 2%; 
+}
+
+.user_name {
+    font-weight: bold;
+}
+
+.message_style {
+    font-size: 16px
+}
+
+.send_msgform_container {
+    padding: 20px;
+    border-top: 2px #4C758F solid;
+    margin-bottom: 20px;
+}
+
+.send_msgform {
+    display: flex;
+}
+
+.send_msgform_input {
+    color: inherit;
+    outline: none;
+    background: none;
+    flex: 1;
+    border: none;
+    font-size: 16px;
+}
+
+.online_person {
+    background: #1fdb4ed3;
+}
+
+.offline_person {
+    background: #414756;
+
+}
+
+.friend_li {
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.friend_box {
+    margin-left: 10px;
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+    border-radius: 50%;
+}

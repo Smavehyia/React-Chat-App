@@ -1,12 +1,21 @@
 import React from 'react';
-import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
+import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
+import Messages from './Messages';
+import SendMsgForm from './SendMsgForm';
+import TypingIndicator from './TypingIndicator';
+import OnlineList from './OnlineList';
+import '../styles/app.css'
 
 class MainScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             currentUser: {},
+            currentRoom: {},
+            messages: [],
+            typingUsers: [],
         }
+
     }
 
     componentDidMount() {
@@ -21,6 +30,35 @@ class MainScreen extends React.Component {
         .then((currentUser) => {
             this.setState({
                 currentUser
+            });
+            return currentUser.subscribeToRoom({
+                roomId: '19386508',
+                messageLimit: 100,
+                hooks: {
+                    onMessage: message => {
+                        this.setState({
+                            messages: [...this.state.messages, message],
+                        })
+                    },
+                    onUserStartedTyping: user => {
+                        this.setState({
+                            typingUsers: [...this.state.typingUsers, user.name]
+                        })
+                    },
+                    onUserStoppedTyping: user => {
+                        this.setState({
+                            typingUsers: this.state.typingUsers.filter((usrname) => usrname !== user.name)
+                        })
+                    },
+                    onPresenceChange: () => this.forceUpdate(),
+                    onUserJoined: () => this.forceUpdate(),
+
+                }
+            })
+        })
+        .then((currentRoom) => {
+            this.setState({
+                currentRoom
             })
         })
         .catch(err => {
@@ -29,10 +67,36 @@ class MainScreen extends React.Component {
 
     }
 
+    sendMessage = (msg) => {
+        this.state.currentUser.sendMessage({
+            roomId: this.state.currentRoom.id,
+            text: msg
+        })
+    }
+
+    sendIsTyping = () => {
+        this.state.currentUser.isTypingIn({
+            roomId: this.state.currentRoom.id,
+        })
+        .catch((err) => console.log(err) )
+
+    }
+
     render() {
-        return <div>
-            <h1> Welcome {this.props.currentUserName}</h1>
-        </div>
+        return (
+            <div className="container">
+                <div className="message_container">
+                    <aside className="friend_list">
+                        <OnlineList users={this.state.currentRoom.users} currentUser={this.state.currentUser} />
+                    </aside>
+                    <section className="friend_list_container">
+                        <Messages messages={this.state.messages}/>
+                        <TypingIndicator typingUsers={this.state.typingUsers} />
+                        <SendMsgForm onSubmit={this.sendMessage} onChange={this.sendIsTyping}/>
+                    </section>
+                </div>
+            </div>
+        )
     }
 }
 
