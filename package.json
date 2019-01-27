@@ -5,13 +5,17 @@
   "dependencies": {
     "@pusher/chatkit-client": "^1.2.2",
     "@pusher/chatkit-server": "^1.0.4",
+    "auth0-js": "^9.9.0",
     "bootstrap": "^4.2.1",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "history": "^4.7.2",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.6",
     "react": "^16.2.0",
+    "react-bootstrap": "^0.32.4",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.1"
   },
   "devDependencies": {

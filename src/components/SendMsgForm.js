@@ -28,21 +28,18 @@ class SendMsgForm extends React.Component {
             message: '',
         })
     }
-
     render() {
         return (
-        <div className="send_msgform_container">
-           <form onSubmit={this.onSubmit} className="send_msgform">
+           <form className="send-message-form" onSubmit={this.onSubmit}>
                <input 
                     name="message" 
                     type="text" 
                     value={this.state.message}
-                    className="send_msgform_input"
                     placeholder="Type your message..." 
-                    onChange={this.onChange} />
-               <input type="submit" />
+                    onChange={this.onChange}
+                    disabled={this.props.disabled} />
             </form> 
-        </div>)
+            )
     }
 
 }

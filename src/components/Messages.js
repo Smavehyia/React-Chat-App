@@ -1,19 +1,38 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 
 class Messages extends React.Component {
+
+    componentWillUpdate() {
+        const node = ReactDOM.findDOMNode(this);
+        this.shouldScrollBottom = node.scrollTop + node.clientHeight + 50 >= node.scrollHeight;
+    }
+
+    componentDidUpdate() {
+        if (this.shouldScrollBottom) {
+            const node = ReactDOM.findDOMNode(this);
+            node.scrollTop = node.scrollHeight
+        }
+    }
     render() {
+        if (!this.props.roomId) {
+            return (                
+            <div className="message-list">
+                <div className="join-room">
+                    WELCOME TO CHATTR-BOX! <br/>
+                    Join a room to start chatting!
+                </div>
+            </div>)
+        }
+
         return (
-            <div className="messages_list_container">
-                <ul className="no_bullet_list">
+            <div className="message-list">
                     {this.props.messages.map((message, idx) => (
-                        <li key={idx} className="list">
-                            <div>
-                                <span className="user_name">{message.senderId}</span>
+                            <div key={idx} className="message"> 
+                                <div className="message-username">{message.senderId}</div>
+                                <div className="message-text">{message.text}</div>
                             </div>
-                            <p className="message_style">{message.text}</p>
-                        </li>
                     ))}
-                </ul>
             </div>
         )
     }

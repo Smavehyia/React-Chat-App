@@ -1,39 +1,43 @@
-import React, { Component } from 'react'
-import UserForm from './components/UserForm';
-import MainScreen from './components/Mainscreen';
+import React, { Component } from 'react';
+import './styles/app.css';
+import {CustomNavbar} from './components/Navbar';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentScreen: 'UserFormScreen',
-            currentUserName: '',
-        }
-    }
 
-    onUserNameSubmitted = (userName) => {
-        fetch('http://localhost:3001/users' , {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({userName})
-        }).then((response) => {
-            this.setState({
-                currentScreen: 'MainScreen', 
-                currentUserName: userName,
-            })
-        }).catch((err) => console.log(err))
+    goTo(route) {
+    this.props.history.replace(`/${route}`)
+  }
 
-    }
+  login() {
+    this.props.auth.login();
+  }
+
+  logout() {
+    this.props.auth.logout();
+  }
+
+  isLoggedIn() {
+       this.props.auth.isAuthenticated();
+  }
+
   render() {
-      if (this.state.currentScreen === 'UserFormScreen') {
-          return  <UserForm onSubmit={this.onUserNameSubmitted} />
-      }
-      else if (this.state.currentScreen === 'MainScreen') {
-          return <MainScreen currentUserName={this.state.currentUserName}/>
-      }
+
+    const { isAuthenticated } = this.props.auth;
+
+    return (
+      <div>
+          { isAuthenticated() && <CustomNavbar 
+            isAuthenticated={isAuthenticated} 
+            onClickHome={this.goTo.bind(this, 'home')} 
+            onClickProfile={this.goTo.bind(this, 'profile')}
+            onClickChat={this.goTo.bind(this, 'chat')}
+            onClickLogin={this.login.bind(this)} 
+            onClickLogout={this.logout.bind(this)} />  }
+            { !isAuthenticated() && null
+            }
+      </div>
+    );
   }
 }
 
-export default App
+export default App;
